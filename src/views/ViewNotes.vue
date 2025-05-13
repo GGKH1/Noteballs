@@ -26,7 +26,7 @@
         </div>
 
         <Note
-        v-for="note in notes"
+        v-for="note in storeNotes.notes"
         :key="note.id" 
         :note="note"
         @delete-note="deleteNote"
@@ -39,24 +39,14 @@
 import { ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import Note from '@/components/notes/Note.vue'
+import { useStoreNotes } from '@/stores/storeNotes'
+
+const storeNotes = useStoreNotes()
 
 const newNote = ref('')
 const newNoteRef = ref(null)
 
-const notes = ref([
-    {
-        id: uuidv4(),
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum eius doloribus vero saepe dolorem veritatis rem eaque obcaecati reprehenderit, voluptatem repellat voluptatum iusto porro odit quae qui voluptates similique cupiditate!'
-    },
-    {
-        id: uuidv4(),
-        content: 'Just a text note'
-    },
-    {
-        id: uuidv4(),
-        content: 'Third note'
-    }
-])
+
 
 const addNote = () => {
     if (!newNote.value) return

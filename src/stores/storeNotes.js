@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
+import { v4 as uuidv4 } from 'uuid'
 
 export const useStoreNotes = defineStore('storeNotes', {
    state: () =>  {
@@ -20,3 +21,10 @@ export const useStoreNotes = defineStore('storeNotes', {
      }
     }
 })
+
+export const useAuth = defineStore('auth', {
+  })
+
+if (import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))
+  }
