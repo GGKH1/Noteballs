@@ -29,7 +29,6 @@
         v-for="note in storeNotes.notes"
         :key="note.id" 
         :note="note"
-        @delete-note="deleteNote"
         />
 
     </div>
@@ -49,19 +48,8 @@ const newNoteRef = ref(null)
 
 
 const addNote = () => {
-    if (!newNote.value) return
-    let note = {
-        id: uuidv4(),
-        content: newNote.value 
-    }
-
-    notes.value.unshift(note)
+    storeNotes.addNote(newNote.value)
     newNote.value = ''    
-
     newNoteRef.value.focus()
-}
-
-const deleteNote = (id) => {
-    notes.value = notes.value.filter(note => note.id !== id)
 }
 </script>

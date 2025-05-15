@@ -19,6 +19,19 @@ export const useStoreNotes = defineStore('storeNotes', {
             }
         ]
      }
+    },
+    actions: {
+        addNote(newNoteContent){
+            let note = {
+                id: uuidv4(),
+                content: newNoteContent 
+            }
+
+            this.notes.unshift(note)
+        },
+        deleteNote(idToDelete){
+            this.notes = this.notes.filter(note => note.id !== idToDelete)
+        },
     }
 })
 
