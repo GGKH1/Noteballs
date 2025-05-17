@@ -13,11 +13,11 @@
          </div>
         </div>
         <footer class="card-footer">
-            <a
-              href="#"
+            <RouterLink
+              :to="`/editNote/${ note.id }`"
               class="card-footer-item">
               Edit
-            </a>            
+            </RouterLink>            
             <a
                 @click="storeNotes.deleteNote(note.id)"
                 href="#"
