@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^13.2.0",
     "bulma": "^1.0.4",
     "pinia": "^3.0.2",
     "uuid": "^11.1.0",

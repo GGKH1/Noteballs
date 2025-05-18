@@ -1,0 +1,8 @@
+:root {
+    [data-theme='light'],
+    .theme-light {
+        --toolbar-bg-color: #ffffff;
+        --toolbar-text-color: #000000;
+        --toolbar-border-color: #e0e0e0;
+    }
+}

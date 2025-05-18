@@ -1,14 +1,23 @@
 <template>
-            <div class="car has-background-success-dark p-4 mb-5">
+            <div class="card p-4 mb-5"
+            :class="`has-background-${bgColor}-dark`">
+
+            <label
+              v-if="label"
+              class="label has-text-white">
+            {{ label }}
+            </label>
+
+
             <div class="field">
-                <label class="label">Message</label>
                 <div class="control">
                     <textarea 
                     :value="modelValue"
                     @input="$emit('update:modelValue', $event.target.value)"
                     class="textarea" 
                     ref="textareaRef"
-                    placeholder="Add a new note"></textarea>
+                    :placeholder="placeholder">
+                </textarea>
                 </div>
                 </div>
 
@@ -27,6 +36,17 @@ const props = defineProps({
     modelValue: {
         type: String,
         required: true
+    },
+    bgColor: {
+        type: String,
+        default: 'success'
+    },
+    placeholder: {
+        type: String,
+        default: 'Add a new note'
+    },
+    label: {
+        type: String
     }
 })
 

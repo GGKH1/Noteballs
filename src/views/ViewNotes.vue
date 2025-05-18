@@ -4,6 +4,7 @@
         <AddEditNote
         v-model="newNote"
         ref="addEditNoteRef"
+        placeholder="Add a new note here..."
         >
             <template #buttons>
                 <button 
@@ -14,30 +15,6 @@
                 </button>
             </template>
         </AddEditNote>
-
-        <!-- <div class="car has-background-success-dark p-4 mb-5">
-            <div class="field">
-                <label class="label">Message</label>
-                <div class="control">
-                    <textarea 
-                    v-model="newNote"
-                    class="textarea" 
-                    ref="newNoteRef"
-                    placeholder="Add a new note"></textarea>
-                </div>
-                </div>
-
-                <div class="field is-grouped is-grouped-right">
-                <div class="control">
-                    <button 
-                    @click="addNote"
-                    :disabled="!newNote"
-                    class="button is-link has-background-success">
-                        Add New Note
-                    </button>
-                </div>
-            </div>
-        </div> -->
 
         <Note
         v-for="note in storeNotes.notes"

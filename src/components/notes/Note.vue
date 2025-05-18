@@ -2,17 +2,17 @@
         <div 
         class="card mb-4"
         >
-        <div class="card-content">
-            <div class="content">
+        <div class="card-content has-background-grey-lighter">
+            <div class="content has-text-dark">
                {{ note.content }}
             
             <div 
-            class="has-text-right has-text-gray-light mt-2">
+            class="has-text-right has-text-gray-dark mt-2">
             <small>{{ characterLength }}</small>
           </div>
          </div>
         </div>
-        <footer class="card-footer">
+        <footer class="card-footer has-background-grey-lighter"> 
             <RouterLink
               :to="`/editNote/${ note.id }`"
               class="card-footer-item">
