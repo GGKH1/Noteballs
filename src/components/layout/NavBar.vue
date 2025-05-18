@@ -2,7 +2,8 @@
     <nav
         class="navbar is-success"
         role="navigation"
-        aria-label="main navigation"> 
+        aria-label="main navigation"
+        ref="navbarRef"> 
         <div class="container is-max-desktop px-2">
             
         
@@ -53,8 +54,14 @@
 
 <script setup>
 import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 const showMovileNavbar = ref(false)
+const navbarRef = ref(null)
+
+onClickOutside(navbarRef, () => {
+    showMovileNavbar.value = false
+})
 </script>
 
 <style>
