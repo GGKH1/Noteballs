@@ -31,6 +31,7 @@ import { v4 as uuidv4 } from 'uuid'
 import Note from '@/components/notes/Note.vue'
 import { useStoreNotes } from '@/stores/storeNotes'
 import AddEditNote from '@/components/notes/AddEditNote.vue'
+import { useWatchCharacters } from '@/use/useWatchCharacters.js'
 
 const storeNotes = useStoreNotes()
 
@@ -42,4 +43,7 @@ const addNote = () => {
     newNote.value = ''    
     addEditNoteRef.value.focusTextarea()
 }
+
+useWatchCharacters(newNote)
+
 </script>
