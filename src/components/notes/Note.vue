@@ -19,18 +19,23 @@
               Edit
             </RouterLink>            
             <a
-                @click="storeNotes.deleteNote(note.id)"
+                @click="modals.deleteNote = true"
                 href="#"
                 class="card-footer-item">
                 Delete
             </a>        
         </footer>
+        <ModalDeleteNote 
+        v-if="modals.deleteNote"
+        v-model="modals.deleteNote"
+        :noteId="note.id"/>
         </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { useStoreNotes } from '@/stores/storeNotes'
+import  ModalDeleteNote  from '@/components/notes/ModalDeleteNote.vue'
 
 const storeNotes = useStoreNotes()
 
@@ -45,6 +50,10 @@ const characterLength = computed(() => {
     let length = props.note.content.length
     let description = length > 1 ? 'characters' : 'character'
     return `${ length } ${description}`
+})
+
+const modals = reactive({
+    deleteNote: false
 })
 
 </script>
