@@ -1,26 +1,43 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
+import { db } from '@/firebase/firebase'
+import { get } from '@vueuse/core'
+import { collection, onSnapshot } from "firebase/firestore";
 
 export const useStoreNotes = defineStore('storeNotes', {
    state: () =>  {
     return {
         notes: [
-            {
-                id: uuidv4(),
-                content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum eius doloribus vero saepe dolorem veritatis rem eaque obcaecati reprehenderit, voluptatem repellat voluptatum iusto porro odit quae qui voluptates similique cupiditate!'
-            },
-            {
-                id: uuidv4(),
-                content: 'Just a text note'
-            },
-            {
-                id: uuidv4(),
-                content: 'Third note'
-            }
+            // {
+            //     id: uuidv4(),
+            //     content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum eius doloribus vero saepe dolorem veritatis rem eaque obcaecati reprehenderit, voluptatem repellat voluptatum iusto porro odit quae qui voluptates similique cupiditate!'
+            // },
+            // {
+            //     id: uuidv4(),
+            //     content: 'Just a text note'
+            // },
+            // {
+            //     id: uuidv4(),
+            //     content: 'Third note'
+            // }
         ]
      }
     },
     actions: {
+        async getNotes(){
+        onSnapshot(collection(db, "notes"), (querySnapshot) => {
+            let notes = []
+            querySnapshot.forEach((doc) => {
+                let note = {
+                            id: doc.id,
+                            content: doc.data().content
+                        }
+            notes.push(note)
+            });
+            this.notes = notes
+          });
+        },
+
         addNote(newNoteContent){
             let note = {
                 id: uuidv4(),

@@ -9,6 +9,14 @@
 
 <script setup>
 import Navbar from '@/components/layout/Navbar.vue'
+import { useStoreNotes} from '@/stores/storeNotes'
+import { onMounted } from 'vue'
+
+const storeNotes = useStoreNotes()
+
+onMounted(() => {
+  storeNotes.getNotes()
+})
 </script>
 
 <style>
