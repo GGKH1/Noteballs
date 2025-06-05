@@ -2,30 +2,19 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { v4 as uuidv4 } from 'uuid'
 import { db } from '@/firebase/firebase'
 import { get } from '@vueuse/core'
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc } from "firebase/firestore";
+
+const notesCollectionRef = collection(db, 'notes')
 
 export const useStoreNotes = defineStore('storeNotes', {
    state: () =>  {
     return {
-        notes: [
-            // {
-            //     id: uuidv4(),
-            //     content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum eius doloribus vero saepe dolorem veritatis rem eaque obcaecati reprehenderit, voluptatem repellat voluptatum iusto porro odit quae qui voluptates similique cupiditate!'
-            // },
-            // {
-            //     id: uuidv4(),
-            //     content: 'Just a text note'
-            // },
-            // {
-            //     id: uuidv4(),
-            //     content: 'Third note'
-            // }
-        ]
+        notes: []
      }
     },
     actions: {
         async getNotes(){
-        onSnapshot(collection(db, "notes"), (querySnapshot) => {
+        onSnapshot(notesCollectionRef, (querySnapshot) => {
             let notes = []
             querySnapshot.forEach((doc) => {
                 let note = {
@@ -38,16 +27,13 @@ export const useStoreNotes = defineStore('storeNotes', {
           });
         },
 
-        addNote(newNoteContent){
-            let note = {
-                id: uuidv4(),
-                content: newNoteContent 
-            }
-
-            this.notes.unshift(note)
+        async addNote(newNoteContent){
+            await addDoc(notesCollectionRef, {
+                content: newNoteContent,
+              });
         },
-        deleteNote(idToDelete){
-            this.notes = this.notes.filter(note => note.id !== idToDelete)
+        async deleteNote(idToDelete){
+            await deleteDoc(doc(notesCollectionRef, idToDelete));
         },
         updateNote(id, content){
             let index = this.notes.findIndex(note => note.id === id)
