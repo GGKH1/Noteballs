@@ -1,8 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { v4 as uuidv4 } from 'uuid'
 import { db } from '@/firebase/firebase'
 import { get } from '@vueuse/core'
-import { collection, onSnapshot, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc } from "firebase/firestore";
 
 const notesCollectionRef = collection(db, 'notes')
 
@@ -35,9 +34,10 @@ export const useStoreNotes = defineStore('storeNotes', {
         async deleteNote(idToDelete){
             await deleteDoc(doc(notesCollectionRef, idToDelete));
         },
-        updateNote(id, content){
-            let index = this.notes.findIndex(note => note.id === id)
-            this.notes[index].content = content
+        async updateNote(id, content){
+            await updateDoc(doc(notesCollectionRef, id), {
+                content
+              });
         }
     },
     getters: {
