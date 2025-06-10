@@ -43,14 +43,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
+import { ref, onMounted } from 'vue'
 import Note from '@/components/notes/Note.vue'
-import { useStoreNotes } from '@/stores/storeNotes'
 import AddEditNote from '@/components/notes/AddEditNote.vue'
+import { useStoreNotes } from '@/stores/storeNotes'
 import { useWatchCharacters } from '@/use/useWatchCharacters.js'
 
+
 const storeNotes = useStoreNotes()
+
+onMounted(() => {
+  storeNotes.getNotes()
+})
 
 const newNote = ref('')
 const addEditNoteRef = ref(null)
