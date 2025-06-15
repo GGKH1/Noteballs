@@ -1,10 +1,15 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { db } from '@/firebase/firebase'
 import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, orderBy, query } from "firebase/firestore";
+import { useStoreAuth } from '@/stores/storeAuth'
+import { get } from '@vueuse/core';
 
-const notesCollectionRef = collection(db, 'notes')
 
-const notesCollectionQuery = query(notesCollectionRef, orderBy('createdAt', 'desc'));
+let notesCollectionRef 
+
+let notesCollectionQuery 
+
+let getNotesSnaphot = null
 
 export const useStoreNotes = defineStore('storeNotes', {
    state: () =>  {
@@ -14,11 +19,20 @@ export const useStoreNotes = defineStore('storeNotes', {
      }
     },
     actions: {
+        init() {
+            const storeAuth = useStoreAuth()
+
+             notesCollectionRef = collection(db, 'users', storeAuth.user.id, 'notes')
+
+             notesCollectionQuery = query(notesCollectionRef, orderBy('createdAt', 'desc'));
+            this.getNotes()
+        },
+
         async getNotes(){
 
         this.notesLoaded = false
 
-        onSnapshot(notesCollectionQuery, (querySnapshot) => {
+        getNotesSnaphot = onSnapshot(notesCollectionQuery, (querySnapshot) => {
             let notes = []
             querySnapshot.forEach((doc) => {
                 let note = {
@@ -31,6 +45,14 @@ export const useStoreNotes = defineStore('storeNotes', {
                 this.notes = notes
                 this.notesLoaded = true
           });
+        },
+
+        clearNotes() {
+            this.notes = []
+            this.notesLoaded = false
+            if (getNotesSnaphot) {
+                getNotesSnaphot(); // Unsubscribe from the previous snapshot listener
+            }
         },
 
         async addNote(newNoteContent){
