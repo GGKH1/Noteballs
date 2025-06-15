@@ -1,10 +1,12 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { db } from '@/firebase/firebase'
 import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, orderBy, query } from "firebase/firestore";
+import { useStoreAuth } from '@/stores/storeAuth'
 
-const notesCollectionRef = collection(db, 'notes')
 
-const notesCollectionQuery = query(notesCollectionRef, orderBy('createdAt', 'desc'));
+let notesCollectionRef 
+
+let notesCollectionQuery 
 
 export const useStoreNotes = defineStore('storeNotes', {
    state: () =>  {
@@ -14,6 +16,14 @@ export const useStoreNotes = defineStore('storeNotes', {
      }
     },
     actions: {
+        init() {
+            const storeAuth = useStoreAuth()
+
+             notesCollectionRef = collection(db, 'users', storeAuth.user.id, 'notes')
+
+             notesCollectionQuery = query(notesCollectionRef, orderBy('createdAt', 'desc'));
+            this.getNotes()
+        },
         async getNotes(){
 
         this.notesLoaded = false
