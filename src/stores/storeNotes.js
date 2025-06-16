@@ -2,7 +2,6 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import { db } from '@/firebase/firebase'
 import { collection, onSnapshot, addDoc, deleteDoc, doc, updateDoc, orderBy, query } from "firebase/firestore";
 import { useStoreAuth } from '@/stores/storeAuth'
-import { get } from '@vueuse/core';
 
 
 let notesCollectionRef 
@@ -89,8 +88,7 @@ export const useStoreNotes = defineStore('storeNotes', {
   }
 })
 
-export const useAuth = defineStore('auth', {
-  })
+export const useAuth = defineStore('auth', {})
 
 if (import.meta.hot) {
     import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))
